@@ -1,32 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Social Media Caption Generator</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header><h1>Social Media Caption Generator</h1></header>
-  <main>
-    <label for="topic">Topic</label>
-    <textarea id="topic" rows="3" placeholder="Enter topic or idea"></textarea>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Caption Craft</title>
+    <link rel="stylesheet" href="style.css" /> 
+  </head>
+  <body class="body">
+    <header><h1>Caption Craft</h1>
+    <h2>Crafting captions on the go</h2>
+    </header>
+    <main>
+      <label for="topic" class="topic">Topic</label>
+      <textarea
+        id="topic"
+        rows="3"
+        placeholder="Enter topic your idea (e.g., Launching a new AI chatbot feature)"
+      ></textarea>
 
-    <label for="tone">Tone</label>
-    <select id="tone">
-      <option>Professional</option>
-      <option>Funny</option>
-      <option>Inspirational</option>
-      <option>Casual</option>
-    </select>
+      <label for="tone" class="tone">Tone</label>
+      <select id="tone">
+        <option>Professional</option>
+        <option>Funny</option>
+        <option>Inspirational</option>
+        <option>Casual</option>
+        <option>Slightly Sarcastic</option>
+      </select>
 
-    <label for="constraint">Custom Constraint (brief)</label>
-    <textarea id="constraint" rows="2" placeholder="e.g. '<= 120 chars for Instagram'"></textarea>
+      <label for="constraint" class="constraints"
+        >Brief description</label
+      >
+      <textarea
+        id="constraint"
+        rows="2"
+        placeholder="e.g. 'Use 3 emojis' or 'Keep the Instagram caption under 150 characters'"
+      ></textarea>
 
-    <button id="generateBtn">Generate</button>
+      <button id="generateBtn">Generate</button>
 
-    <div id="outputArea" aria-live="polite"></div>
-  </main>
-  <script src="script.js"></script>
-</body>
+      <div id="outputArea" aria-live="polite"></div>
+    </main>
+    <footer>CaptionCraft &copy; 2025 - Crafting captions on the go.</footer>
+    
+    
+    <script src="apiKey.js"></script> 
+  </body>
 </html>
