@@ -144,7 +144,8 @@ function displayOutput(jsonString) {
     
     document.querySelectorAll('.copy-btn').forEach(button => {
         button.addEventListener('click', (e) => copyToClipboard(e.currentTarget.dataset.caption, e.currentTarget));
-    });}
+    });
+}
 
 async function generateCaptions() {
     
