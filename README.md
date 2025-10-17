@@ -5,4 +5,4 @@ Deliver a deployed, functional AI app that generates three distinct social media
 
 ## Tech Stack
 HTML, CSS, Vanilla JavaScript, Google Gemini API (gemini-2.5-flash).
-#Here's the link to our deployed app:
+#Here's the link to our deployed app: [Caption Craft](https://mfobestechjournal.github.io/Caption_Craft/)
