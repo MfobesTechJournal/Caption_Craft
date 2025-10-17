@@ -2,10 +2,7 @@ const apiKey = "AIzaSyDDu7yN3JwLu0cdUmUjIOoSj5vRD9wF448";
 const model = "gemini-2.5-flash-preview-05-20";
 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-/**
- * Retrieves values from the topic, tone, and constraint input fields.
- * @returns {object} An object containing the current user inputs.
- */
+
 function getInputs() {
     const topic = document.getElementById('topic').value.trim();
     const tone = document.getElementById('tone').value.trim();
@@ -14,18 +11,14 @@ function getInputs() {
     return { topic, tone, constraint };
 }
 
-/**
- * Creates the API payload, including the user query, system instruction, and schema.
- * @param {object} inputs - The user inputs (topic, tone, constraint).
- * @returns {object} The full API payload.
- */
+
 function buildApiPayload(inputs) {
-    // Defines the LLM's role, task, and mandatory JSON output format.
+    
     const systemInstruction = "You are a world-class social media manager. Your task is to generate three distinct captions (one each for Instagram, X/Twitter, and LinkedIn) based on the user's input. The final output MUST be a JSON array that strictly follows the provided schema. DO NOT include any text, greetings, or explanations outside the JSON array.";
 
     const userQuery = `Topic: ${inputs.topic}. Tone: ${inputs.tone}. Constraints: ${inputs.constraint || 'None specified.'}.`;
 
-    // Schema ensures the model returns predictable, machine-readable data.
+    
     const responseSchema = {
         type: "ARRAY",
         description: "An array of generated social media captions, one for each platform.",
@@ -61,11 +54,9 @@ function buildApiPayload(inputs) {
     };
 }
 
-/**
- * Helper function to return an SVG icon for a given platform.
- */
+
 function getPlatformIcon(platform) {
-    // Using inline SVGs for professional, high-quality icons without external files
+    
     switch (platform.toLowerCase().replace(/[^a-z0-9]/g, '')) {
         case 'instagram':
             return '<svg class="icon instagram-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 14h-7a1 1 0 01-1-1v-7a1 1 0 011-1h7a1 1 0 011 1v7a1 1 0 01-1 1zM16 8.5a.5.5 0 100-1 .5.5 0 000 1zM12 10a2 2 0 100 4 2 2 0 000-4z"/></svg>';
@@ -79,9 +70,7 @@ function getPlatformIcon(platform) {
     }
 }
 
-/**
- * Helper function to copy text to the clipboard and provide visual feedback.
- */
+
 function copyToClipboard(text, button) {
     const textarea = document.createElement('textarea');
     textarea.value = text;
@@ -91,11 +80,11 @@ function copyToClipboard(text, button) {
     document.body.appendChild(textarea);
     textarea.select();
     
-    // Use execCommand for broader compatibility in sandboxed environments
+    
     document.execCommand('copy');
     document.body.removeChild(textarea);
 
-    // Provide visual feedback (UX)
+    
     const originalText = button.textContent;
     button.textContent = 'Copied!';
     button.classList.add('copied');
@@ -105,19 +94,16 @@ function copyToClipboard(text, button) {
     }, 1500);
 }
 
-/**
- * Parses the raw JSON string and renders the results into styled HTML cards.
- * @param {string} jsonString - The raw JSON string returned by the Gemini API.
- */
+
 function displayOutput(jsonString) {
     const outputArea = document.getElementById('outputArea');
     let data;
 
     try {
-        // Attempt to parse the JSON string
+        
         data = JSON.parse(jsonString);
     } catch (e) {
-        // Handle parsing errors (The model didn't follow the schema)
+        
         console.error("Failed to parse JSON output:", e);
         outputArea.innerHTML = `<p class="error-message">Error: Model did not return valid JSON. The prompt or constraints might be too complex for structured output. Check the console for details.</p>`;
         return;
@@ -129,13 +115,13 @@ function displayOutput(jsonString) {
         return;
     }
 
-    // Build the final HTML string from the parsed data
+  
     const cardsHtml = data.map(item => {
         const platform = item.platform || 'Unknown Platform';
         const caption = item.caption || 'No caption generated.';
         const icon = getPlatformIcon(platform);
 
-        // Escape quotes for safe placement in data-caption attribute
+       
         const escapedCaption = caption.replace(/"/g, '&quot;'); 
 
         return `
@@ -152,42 +138,37 @@ function displayOutput(jsonString) {
         `;
     }).join('');
 
-    // Update the output area with the generated cards
+    
     outputArea.innerHTML = `<h3 class="results-title">Generated Captions</h3><div class="caption-results-grid">${cardsHtml}</div>`;
 
-    // Add event listeners for the new Copy buttons
+    
     document.querySelectorAll('.copy-btn').forEach(button => {
         button.addEventListener('click', (e) => copyToClipboard(e.currentTarget.dataset.caption, e.currentTarget));
     });
-}
 
-
-/**
- * The core asynchronous function to handle the API call
- */
 async function generateCaptions() {
-    // 1. Get references to the output and button elements
+    
     const outputArea = document.getElementById('outputArea');
     const generateBtn = document.getElementById('generateBtn');
 
-    // Retrieve user inputs
+
     const inputs = getInputs();
     if (!inputs.topic) {
         outputArea.innerHTML = '<p class="error-message">Please enter a **Topic** to generate captions.</p>';
         return; 
     }
 
-    // Build the full payload with system instructions and JSON schema
+    
     const payload = buildApiPayload(inputs);
 
-    // Loading state changes
+  
     outputArea.innerHTML = '<div class="spinner"></div><p style="font-style: italic; margin-top: 10px;">Crafting captions...</p>';
     generateBtn.disabled = true;
 
     try {
         console.log("Sending request to Gemini API...");
 
-        // Implement fetch with exponential backoff for resilience
+        
         const maxRetries = 3;
         let response;
 
@@ -202,12 +183,12 @@ async function generateCaptions() {
                 break; // Success, exit loop
             }
 
-            // Throw error if max retries reached or status is client-side error (4xx)
+            
             if (i === maxRetries - 1 || (response.status >= 400 && response.status < 500)) {
                 throw new Error(`API Request failed with status: ${response.status}. Please check your API key and input.`);
             }
 
-            // Exponential backoff wait (1s, 2s, 4s, ...)
+            
             const delay = Math.pow(2, i) * 1000;
             console.warn(`Retrying in ${delay / 1000}s...`);
             await new Promise(resolve => setTimeout(resolve, delay));
@@ -216,28 +197,28 @@ async function generateCaptions() {
         const result = await response.json();
         console.log("API Response:", result);
 
-        // Extract generated text
+       
         const generatedContentText = result.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (generatedContentText) {
-            // Call displayOutput to parse and render the structured output
+            
             displayOutput(generatedContentText);
         } else {
-             // Handle cases where the API call succeeds but the model returns no content
+           
             throw new Error("API returned success, but no generated content was found.");
         }
 
     } catch (error) {
-        // Robust error handling
+        
         console.error("Error generating captions:", error);
         outputArea.innerHTML = `<p class="error-message">Generation Failed: ${error.message}</p><p>Please check the console for network or key errors.</p>`;
     } finally {
-        // Ensure the button is re-enabled
+      
         generateBtn.disabled = false;
     }
 }
 
-// Event Listener: Attach the function to the 'Generate' button
+
 document.getElementById('generateBtn').addEventListener('click', generateCaptions);
 
 // Initial message in the output area
