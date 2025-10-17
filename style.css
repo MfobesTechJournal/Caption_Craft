@@ -1,6 +1,56 @@
-/* Minimal base styling */
-body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:18px; line-height:1.4; }
-label{display:block;margin-top:12px;font-weight:600}
-textarea, select{width:100%;padding:8px;border-radius:6px;border:1px solid #ddd}
-button{margin-top:12px;padding:10px 16px;border-radius:8px;cursor:pointer}
-.card{border:1px solid #e6e6e6;padding:12px;margin-top:12px;border-radius:8px;background:#fafafa}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Lora;
+}
+main {
+  display: grid;
+  gap: 15px;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  font-weight: bold;
+}
+header {
+  color: grey;
+  background-color: lightsteelblue;
+  text-align: center;
+  height: 130px;
+  display: flexbox;
+  padding: 3rem;
+  font-weight: 500;
+}
+h1 {
+  text-align: center;
+  height: 75px;
+}
+label {
+  padding-bottom: 5px;
+}
+footer {
+  background-color: lightsteelblue;
+  height: 50px;
+  padding: 2rem;
+  text-align: center;
+}
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid lightblue;
+}
+#generateBtn {
+  display: inline-block;
+  cursor: pointer;
+  background-color: rgb(67, 119, 193);
+  font-weight: bold;
+}
+.outputArea {
+  display: grid;
+  padding: 10px;
+  border: 1px solid lightgray;
+  min-height: 50px;
+  margin-top: 10px;
+}
