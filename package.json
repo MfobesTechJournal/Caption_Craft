@@ -1,0 +1,28 @@
+{
+  "name": "caption_craft",
+  "version": "1.0.0",
+  "description": "The primary objective of Caption Craft is to deliver a deployed, functional AI-powered web application that solves the common challenge of writing engaging social media content.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MfobesTechJournal/Caption_Craft.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MfobesTechJournal/Caption_Craft/issues"
+  },
+  "homepage": "https://github.com/MfobesTechJournal/Caption_Craft#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mysql2": "^3.15.3"
+  }
+}
